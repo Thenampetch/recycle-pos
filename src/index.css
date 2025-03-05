@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #2d6e7e;
+  --primary-light: #38889c;
+  --primary-dark: #235761;
+  --secondary: #d6e8e0;
+  --secondary-dark: #c5d6cf;
+  --danger: #b33a3a;
+  --success: #38889c;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  @apply bg-secondary;
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded font-medium transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark;
+  }
+
+  .btn-danger {
+    @apply bg-danger text-white hover:bg-danger-dark;
+  }
+
+  .btn-success {
+    @apply bg-success text-white hover:bg-success-dark;
+  }
+
+  .input-field {
+    @apply w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary;
+  }
+
+  .material-btn {
+    @apply bg-gray-200 hover:bg-gray-300 p-4 rounded text-center font-medium transition-colors;
+  }
+
+  .sidebar-btn {
+    @apply w-full bg-white hover:bg-gray-100 p-4 rounded text-center font-medium transition-colors;
+  }
+
+  .active-sidebar-btn {
+    @apply bg-primary text-white hover:bg-primary-dark;
+  }
+}
+
