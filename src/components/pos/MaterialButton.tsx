@@ -11,7 +11,10 @@ export const MaterialButton: React.FC<MaterialButtonProps> = ({
   onClick,
 }) => {
   return (
-    <button className="material-btn" onClick={() => onClick(material)}>
+    <button
+      className="material-btn border-solid border-2 border-gray-300"
+      onClick={() => onClick(material)}
+    >
       {material.name}
     </button>
   );

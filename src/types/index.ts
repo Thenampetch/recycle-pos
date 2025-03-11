@@ -8,6 +8,7 @@ export interface User {
     id: string
     code: string
     name?: string
+    phone?: string
   }
   
   export interface Material {
@@ -20,7 +21,9 @@ export interface User {
   export interface CartItem {
     material: Material
     weight: number
+    deduction: number 
     total: number
+    netWeight: number
   }
   
   export interface Transaction {
