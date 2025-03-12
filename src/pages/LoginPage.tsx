@@ -21,11 +21,10 @@ export const LoginPage: React.FC = () => {
 
     try {
       const success = await login(username, password);
-      if (success) {
-        navigate("/membership");
-      } else {
+      if (!success) {
         setError("Invalid username or password");
       }
+      // Remove the navigation - let the login function handle it
     } catch (err) {
       setError("An error occurred during login");
     }

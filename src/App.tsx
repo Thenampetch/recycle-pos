@@ -5,6 +5,9 @@ import { CartProvider } from "./content/CartContent";
 import { LoginPage } from "./pages/LoginPage";
 import { MembershipPage } from "./pages/MembershipPage";
 import { POSPage } from "./pages/POSpage";
+import { OfficePage } from "./pages/OfficePage";
+import { PendingBillsPage } from "./pages/PendingBill";
+import { PaidBillsPage } from "./pages/PaidBill";
 
 // Protected route component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
@@ -39,6 +42,30 @@ function App() {
               element={
                 <ProtectedRoute>
                   <POSPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/office"
+              element={
+                <ProtectedRoute>
+                  <OfficePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/office/pending-bills"
+              element={
+                <ProtectedRoute>
+                  <PendingBillsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/office/paid-bills"
+              element={
+                <ProtectedRoute>
+                  <PaidBillsPage />
                 </ProtectedRoute>
               }
             />

@@ -46,10 +46,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     username: string,
     password: string
   ): Promise<boolean> => {
+    console.log("Login attempt:", username, password);
+
     // Check against our hardcoded users
     const foundUser = USERS.find(
       (u) => u.username === username && u.password === password
     );
+
+    console.log("Found user:", foundUser);
 
     if (foundUser) {
       // Set the user in state
@@ -58,6 +62,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         username: foundUser.username,
         name: foundUser.name,
       });
+
+      console.log("Redirecting to:", foundUser.redirectTo);
 
       // Navigate to the appropriate page
       navigate(foundUser.redirectTo);
