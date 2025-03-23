@@ -1,24 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { OfficeSidebar } from "../components/layout/office-sidebar";
 import { BillCard, mockBills } from "../components/bills/billcard";
-import { Search } from "lucide-react";
+import { ViewBillModal } from "../components/bills/ViewBillModal";
+import { Search, ArrowLeft } from "lucide-react";
+import type { Bill } from "../components/bills/billcard";
 
 export const PaidBillsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [bills, setBills] = useState<Bill[]>([]);
+  const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
+  const navigate = useNavigate();
+
+  // Load bills on component mount
+  useEffect(() => {
+    // In a real app, this would be an API call
+    setBills([...mockBills]);
+  }, []);
 
   // Filter bills by status and search query
-  // When backend is ready, replace this with API call:
-  // const [paidBills, setPaidBills] = useState([]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await fetchBills('paid');
-  //     setPaidBills(data);
-  //   };
-  //   fetchData();
-  // }, []);
-  const paidBills = mockBills.filter(
+  const paidBills = bills.filter(
     (bill) =>
       bill.status === "paid" &&
       (searchQuery
@@ -26,11 +29,28 @@ export const PaidBillsPage = () => {
         : true)
   );
 
+  const handleBillClick = (bill: Bill) => {
+    setSelectedBill(bill);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedBill(null);
+  };
+
   return (
     <div className="min-h-screen bg-[#f0f5ee]">
       <OfficeSidebar />
 
       <div className="ml-64 p-8">
+        {/* Back button */}
+        <button
+          onClick={() => navigate("/office")}
+          className="flex items-center text-[#2d6e7e] hover:text-[#1d5d6b] mb-4 transition-colors"
+        >
+          <ArrowLeft size={20} className="mr-1" />
+          <span>กลับไปหน้าหลัก</span>
+        </button>
+
         <h1 className="text-4xl font-bold text-[#2d6e7e] mb-8 text-center">
           บิลจ่ายแล้ว
         </h1>
@@ -48,9 +68,11 @@ export const PaidBillsPage = () => {
         </div>
 
         {/* Bills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
           {paidBills.length > 0 ? (
-            paidBills.map((bill) => <BillCard key={bill.id} bill={bill} />)
+            paidBills.map((bill) => (
+              <BillCard key={bill.id} bill={bill} onClick={handleBillClick} />
+            ))
           ) : (
             <div className="col-span-2 text-center py-8 text-gray-500">
               ไม่พบบิลจ่ายแล้ว
@@ -58,6 +80,11 @@ export const PaidBillsPage = () => {
           )}
         </div>
       </div>
+
+      {/* View Bill Modal */}
+      {selectedBill && (
+        <ViewBillModal bill={selectedBill} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };

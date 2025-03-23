@@ -1,4 +1,7 @@
+"use client";
+
 import type React from "react";
+
 import { User } from "lucide-react";
 
 // Bill interface - this can be replaced with your API types later
@@ -70,28 +73,58 @@ export const mockBills: Bill[] = [
   },
 ];
 
-// API function placeholder - implement this when backend is ready
-// export const fetchBills = async (status: 'pending' | 'paid'): Promise<Bill[]> => {
-//   const response = await fetch(`/api/bills?status=${status}`);
-//   const data = await response.json();
-//   return data;
-// };
+// Function to update bill status - replace with API call when backend is ready
+export const updateBillStatus = (
+  billId: string,
+  newStatus: "pending" | "paid"
+): void => {
+  const billIndex = mockBills.findIndex((bill) => bill.id === billId);
+  if (billIndex !== -1) {
+    mockBills[billIndex].status = newStatus;
+  }
+};
 
 interface BillCardProps {
   bill: Bill;
+  onClick?: (bill: Bill) => void;
 }
 
-export const BillCard: React.FC<BillCardProps> = ({ bill }) => {
+export const BillCard: React.FC<BillCardProps> = ({ bill, onClick }) => {
+  const isClickable = onClick !== undefined;
+
+  const handleClick = () => {
+    if (isClickable && onClick) {
+      onClick(bill);
+    }
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-      <div className="bg-[#b8d8d8] p-3 text-center font-bold">
-        เลขที่: {bill.id}
+    <div
+      className={`bg-white rounded-lg shadow-sm overflow-hidden ${
+        isClickable ? "cursor-pointer hover:shadow-md transition-shadow" : ""
+      }`}
+      onClick={handleClick}
+    >
+      <div
+        className={`p-3 text-center font-medium ${
+          bill.status === "paid" ? "bg-green-100" : "bg-[#b8d8d8]"
+        }`}
+      >
+        <div className="flex justify-between items-center">
+          <span>เลขที่: {bill.id}</span>
+          {bill.status === "paid" && (
+            <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+              จ่ายแล้ว
+            </span>
+          )}
+        </div>
       </div>
       <div className="p-4 flex gap-4">
         <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
           {bill.memberImage ? (
             <img
               src={bill.memberImage || "/placeholder.svg"}
+              alt={bill.memberName}
               className="w-full h-full rounded-full object-cover"
             />
           ) : (

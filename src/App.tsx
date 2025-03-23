@@ -1,3 +1,5 @@
+"use client";
+
 import type React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./content/AuthContent";
@@ -8,6 +10,8 @@ import { POSPage } from "./pages/POSpage";
 import { OfficePage } from "./pages/OfficePage";
 import { PendingBillsPage } from "./pages/PendingBill";
 import { PaidBillsPage } from "./pages/PaidBill";
+// Add this import
+import { PricesTodayPage } from "./pages/PriceToday";
 
 // Protected route component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
@@ -66,6 +70,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <PaidBillsPage />
+                </ProtectedRoute>
+              }
+            />
+            {/* Add this route inside your Routes component */}
+            <Route
+              path="/office/prices"
+              element={
+                <ProtectedRoute>
+                  <PricesTodayPage />
                 </ProtectedRoute>
               }
             />
