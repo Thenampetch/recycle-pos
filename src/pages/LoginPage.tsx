@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { useAuth } from "../content/AuthContent";
-import logo from "../assets/logo.svg";
+import logo from "../assets/logonobg.svg";
 
 export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -34,11 +34,14 @@ export const LoginPage: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-secondary p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <img
-            src={logo}
-            alt="DOI SAKET RECYCLE"
-            className="w-max h-max mx-auto mb-4"
-          />
+          <div className="bg-primary w-full h-full rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <img
+              src={logo}
+              alt="DOI SAKET RECYCLE"
+              className="w-max h-max mx-auto mb-4"
+            />
+          </div>
+
           <h1 className="text-3xl font-bold text-primary mb-2">Welcome Back</h1>
           <p className="text-gray-600">
             Enter your username and password to log in

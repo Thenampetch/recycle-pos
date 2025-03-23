@@ -10,8 +10,12 @@ import { POSPage } from "./pages/POSpage";
 import { OfficePage } from "./pages/OfficePage";
 import { PendingBillsPage } from "./pages/PendingBill";
 import { PaidBillsPage } from "./pages/PaidBill";
-// Add this import
 import { PricesTodayPage } from "./pages/PriceToday";
+import { AnalyticsPage } from "./pages/AnalyticsPage";
+import { InventoryAnalyticsPage } from "./pages/InventoryAnalyticsPage";
+import { MembersAnalyticsPage } from "./pages/MembersAnalyticsPage";
+import { ReportsAnalyticsPage } from "./pages/ReportsAnalyticsPage";
+import { SettingsAnalyticsPage } from "./pages/SettingsAnalyticsPage";
 
 // Protected route component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
@@ -73,12 +77,51 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* Add this route inside your Routes component */}
             <Route
               path="/office/prices"
               element={
                 <ProtectedRoute>
                   <PricesTodayPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute>
+                  <AnalyticsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics/inventory"
+              element={
+                <ProtectedRoute>
+                  <InventoryAnalyticsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics/members"
+              element={
+                <ProtectedRoute>
+                  <MembersAnalyticsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics/reports"
+              element={
+                <ProtectedRoute>
+                  <ReportsAnalyticsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics/settings"
+              element={
+                <ProtectedRoute>
+                  <SettingsAnalyticsPage />
                 </ProtectedRoute>
               }
             />

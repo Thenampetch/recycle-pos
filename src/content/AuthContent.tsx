@@ -30,7 +30,7 @@ const USERS = [
     username: "003",
     password: "3333",
     name: "User Three",
-    redirectTo: "/membership",
+    redirectTo: "/analytics",
   },
 ];
 
