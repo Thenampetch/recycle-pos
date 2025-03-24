@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import { X, Check, FileText, Edit2, Image, Save } from "lucide-react";
-import type { Bill } from "./billcard";
+import type { Bill } from "./BillCard";
 import { ImagePreviewModal } from "./ImagePreviewModal";
 
 interface BillItem {
