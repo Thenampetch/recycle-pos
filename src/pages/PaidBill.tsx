@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { OfficeSidebar } from "../components/layout/office-sidebar";
-import { BillCard, mockBills } from "../components/bills/billcard";
+import { BillCard, mockBills } from "../components/bills/BillCard";
 import { ViewBillModal } from "../components/bills/ViewBillModal";
 import { Search, ArrowLeft } from "lucide-react";
-import type { Bill } from "../components/bills/billcard";
+import type { Bill } from "../components/bills/BillCard";
 
 export const PaidBillsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
