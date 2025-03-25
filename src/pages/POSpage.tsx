@@ -788,7 +788,7 @@ export const POSPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleMaterialClick = (material: Material) => {
-    // Default weight is 1kg, can be updated later
+    // Default weight is 1kg, can be updated later, TO Connect with Scale later
     addItem(material, 1);
   };
 

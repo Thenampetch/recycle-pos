@@ -103,7 +103,7 @@ export const AnalyticsSidebar: React.FC<AnalyticsSidebarProps> = ({
           <p>{currentTime}</p>
         </div>
         <div className="bg-slate-300 border-2 border-slate-400 p-4 rounded mb-4">
-          <p className="text-center">Recorder:</p>
+          <p className="text-center font-bold">USER :</p>
           <p className="text-center font-bold">{user?.name}</p>
         </div>
         <Button variant="danger" fullWidth onClick={logout}>
