@@ -31,7 +31,7 @@ export const ViewBillModal: React.FC<ViewBillModalProps> = ({
   >("weight-summary");
 
   // Mock bill items
-  const billItems: BillItem[] = [
+  const billItems: BillItem[] = [//chqnge to be from backend
     {
       id: 1,
       name: "ทองแดง#1",
