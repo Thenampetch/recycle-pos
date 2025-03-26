@@ -74,8 +74,8 @@ export const POSPage: React.FC = () => {
   }, []);
 
   const handleMaterialClick = (material: Material) => {
-    // Default weight is 1kg, can be updated later, TO Connect with Scale later
-    addItem(material, 9.99);
+    // Default weight is 1kg, can be updated later
+    addItem(material, 1);
   };
 
   const handleCheckout = () => {
@@ -120,11 +120,15 @@ export const POSPage: React.FC = () => {
       </div>
 
       <div className="w-96 bg-[#f0f5ee] p-4 fixed right-0 top-0 bottom-0 flex flex-col h-screen">
-        {member && (
+        {member ? (
           <div className="bg-blue-100 px-4 py-2 rounded mb-2">
             <span className="font-medium">
-              สมาชิก : {member.code} {member.name}
+              สมาชิก: {member.code} {member.name}
             </span>
+          </div>
+        ) : (
+          <div className="bg-blue-100 px-4 py-2 rounded mb-2">
+            <span className="font-medium">สมาชิก: 0001 ลูกค้าทั่วไป</span>
           </div>
         )}
         <h1 className="text-xl font-bold text-center text-black mb-2">

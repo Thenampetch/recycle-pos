@@ -17,6 +17,12 @@ export const MembershipPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleRegularCustomer = () => {
+    // Set default member information for regular customers
+    setMember({
+      id: "0001",
+      code: "0001",
+      name: "ลูกค้าทั่วไป",
+    });
     navigate("/pos");
   };
 
@@ -26,9 +32,12 @@ export const MembershipPage: React.FC = () => {
 
   const handleMemberCustomer = () => {
     if (memberCode) {
+      // Here you would typically fetch the member details from the backend
+      // For now, we'll just set a mock member
       setMember({
         id: memberCode,
         code: memberCode,
+        name: "สมชาย ใจดี", // Replace with actual member name from the backend
       });
       navigate("/pos");
     }

@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
+const multer = require("multer");
 
 const app = express();
 const { SerialPort } = require("serialport");
@@ -11,6 +12,20 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/uploads', express.static('uploads')); // Serve uploaded files
+
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Directory to save uploaded files
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to filename
+    }
+});
+
+const upload = multer({ storage });
 
 // WebSocket Server
 const wss = new WebSocket.Server({ port: 8080 });
