@@ -16,6 +16,7 @@ export interface User {
     name: string
     price: number
     category: string
+    image?: string
   }
   
   export interface CartItem {
@@ -24,6 +25,7 @@ export interface User {
     deduction: number 
     total: number
     netWeight: number
+    image?: string
   }
   
   export interface Transaction {

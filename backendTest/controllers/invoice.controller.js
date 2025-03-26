@@ -110,6 +110,53 @@ exports.uploadImages = async (req, res) => {
     }
 };
 
+// Get invoice by invoiceID with member details
+exports.getInvoiceById = async (req, res) => {
+    try {
+        const db = req.db;
+        const invoiceID = req.params.invoiceID;
+
+        const invoice = await db.collection("invoices").aggregate([
+            { $match: { invoiceID } },
+            {
+                $lookup: {
+                    from: "members",
+                    localField: "memberID",
+                    foreignField: "memberID",
+                    as: "memberDetails"
+                }
+            },
+            { $unwind: { path: "$memberDetails", preserveNullAndEmptyArrays: true } }
+        ]).toArray();
+
+        if (!invoice.length) {
+            return res.status(404).json({ error: "Invoice not found" });
+        }
+
+        res.json(invoice[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Delete invoice by invoiceID
+exports.deleteInvoice = async (req, res) => {
+    try {
+        const db = req.db;
+        const invoiceID = req.params.invoiceID;
+
+        const result = await db.collection("invoices").deleteOne({ invoiceID });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "Invoice not found" });
+        }
+
+        res.json({ message: "Invoice deleted" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 // exports.createInvoice = async (req, res) => {
 //     try {
 //         const db = req.db;
@@ -165,34 +212,6 @@ exports.uploadImages = async (req, res) => {
 //     }
 // };
 
-// // Get invoice by invoiceID with member details
-// exports.getInvoiceById = async (req, res) => {
-//     try {
-//         const db = req.db;
-//         const invoiceID = req.params.invoiceID;
-
-//         const invoice = await db.collection("invoices").aggregate([
-//             { $match: { invoiceID } },
-//             {
-//                 $lookup: {
-//                     from: "members",
-//                     localField: "memberID",
-//                     foreignField: "memberID",
-//                     as: "memberDetails"
-//                 }
-//             },
-//             { $unwind: { path: "$memberDetails", preserveNullAndEmptyArrays: true } }
-//         ]).toArray();
-
-//         if (!invoice.length) {
-//             return res.status(404).json({ error: "Invoice not found" });
-//         }
-
-//         res.json(invoice[0]);
-//     } catch (err) {
-//         res.status(500).json({ error: err.message });
-//     }
-// };
 
 // // Update invoice by invoiceID
 // exports.updateInvoice = async (req, res) => {
@@ -230,20 +249,3 @@ exports.uploadImages = async (req, res) => {
 //     }
 // };
 
-// // Delete invoice by invoiceID
-// exports.deleteInvoice = async (req, res) => {
-//     try {
-//         const db = req.db;
-//         const invoiceID = req.params.invoiceID;
-
-//         const result = await db.collection("invoices").deleteOne({ invoiceID });
-
-//         if (result.deletedCount === 0) {
-//             return res.status(404).json({ error: "Invoice not found" });
-//         }
-
-//         res.json({ message: "Invoice deleted" });
-//     } catch (err) {
-//         res.status(500).json({ error: err.message });
-//     }
-// };

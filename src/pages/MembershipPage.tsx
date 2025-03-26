@@ -8,6 +8,7 @@ import { Button } from "../components/ui/Button";
 import { useAuth } from "../content/AuthContent";
 import { useCart } from "../content/CartContent";
 import logo from "../assets/logonobg.svg";
+import axios from "axios";
 
 export const MembershipPage: React.FC = () => {
   const [memberCode, setMemberCode] = useState("");
@@ -30,16 +31,24 @@ export const MembershipPage: React.FC = () => {
     setShowMemberForm(true);
   };
 
-  const handleMemberCustomer = () => {
+  const handleMemberCustomer = async () => {
     if (memberCode) {
-      // Here you would typically fetch the member details from the backend
-      // For now, we'll just set a mock member
-      setMember({
-        id: memberCode,
-        code: memberCode,
-        name: "สมชาย ใจดี", // Replace with actual member name from the backend
-      });
-      navigate("/pos");
+      try {
+        // Fetch member details from the backend
+        const response = await axios.get(`http://localhost:3000/members/${memberCode}`);
+        const memberData = response.data;
+
+        // Set the member information in the cart context
+        setMember({
+          id: memberData.memberID,
+          code: memberData.memberID,
+          name: memberData.memberNameTH, // Use the member's Thai name
+        });
+        navigate("/pos");
+      } catch (error) {
+        console.error("Error fetching member details:", error);
+        alert("Invalid member code. Please try again.");
+      }
     }
   };
 

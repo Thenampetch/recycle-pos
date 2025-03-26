@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sidebar } from "../components/layout/sidebar";
 import { MaterialButton } from "../components/pos/MaterialButton";
@@ -39,6 +39,8 @@ export const POSPage: React.FC = () => {
     member,
   } = useCart();
   const navigate = useNavigate();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const fetchMaterials = async () => {
@@ -74,8 +76,16 @@ export const POSPage: React.FC = () => {
   }, []);
 
   const handleMaterialClick = (material: Material) => {
-    // Default weight is 1kg, can be updated later
-    addItem(material, 1);
+    // Capture image from webcam
+    if (videoRef.current && canvasRef.current) {
+      const context = canvasRef.current.getContext("2d");
+      if (context) {
+        context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+        const imageData = canvasRef.current.toDataURL("image/png");
+        // Add the material to the cart with the captured image
+        addItem({ ...material, image: imageData }, 1);
+      }
+    }
   };
 
   const handleCheckout = () => {
@@ -123,7 +133,7 @@ export const POSPage: React.FC = () => {
         {member ? (
           <div className="bg-blue-100 px-4 py-2 rounded mb-2">
             <span className="font-medium">
-              สมาชิก: {member.code} {member.name}
+              สมาชิก: {member.code} {member.name} {/* Display memberID and memberNameTH */}
             </span>
           </div>
         ) : (
@@ -148,6 +158,8 @@ export const POSPage: React.FC = () => {
                   index={index}
                   onRemove={removeItem}
                   onUpdateWeight={updateItemWeight}
+                  videoRef={videoRef} // Pass videoRef to CartItem
+                  canvasRef={canvasRef} // Pass canvasRef to CartItem
                 />
               ))}
             </div>
@@ -163,10 +175,13 @@ export const POSPage: React.FC = () => {
           onCancel={handleCancel}
         />
       </div>
+
+      {/* Video and Canvas Elements */}
+      <video ref={videoRef} style={{ display: "none" }} autoPlay />
+      <canvas ref={canvasRef} style={{ display: "none" }} width={320} height={240} />
     </div>
   );
 };
-
 // "use client";
 
 // import type React from "react";

@@ -1,15 +1,17 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { CartItem as CartItemType } from "../../types";
-import { Pencil, X, Image } from "lucide-react";
+import { Pencil, X, Image as ImageIcon } from "lucide-react";
 
 interface CartItemProps {
   item: CartItemType;
   index: number;
   onRemove: (index: number) => void;
   onUpdateWeight: (index: number, weight: number, deduction: number) => void;
+  videoRef: any;
+  canvasRef: any;
 }
 
 export const CartItem: React.FC<CartItemProps> = ({
@@ -21,31 +23,11 @@ export const CartItem: React.FC<CartItemProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [weight, setWeight] = useState(item.weight.toString());
   const [deduction, setDeduction] = useState(item.deduction.toString());
-
-  useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080"); // Connect to WebSocket server
-
-    ws.onmessage = (event) => {
-      const receivedWeight = event.data.trim();
-      if (receivedWeight) {
-        setWeight(receivedWeight); // Update weight from the scale
-      }
-    };
-
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    ws.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
-
-    return () => ws.close();
-  }, []);
+  const [showImage, setShowImage] = useState(false); // State to manage image modal visibility
 
   const handleSave = () => {
-    const newWeight = Number.parseFloat(weight)// || 9.99; // Default to 9.99 if no valid input
-    const newDeduction = Number.parseFloat(deduction)// || 0;
+    const newWeight = Number.parseFloat(weight);
+    const newDeduction = Number.parseFloat(deduction);
 
     if (newWeight > 0 && newDeduction >= 0) {
       onUpdateWeight(index, newWeight, newDeduction);
@@ -72,6 +54,12 @@ export const CartItem: React.FC<CartItemProps> = ({
             onClick={() => onRemove(index)}
           >
             <X size={25} />
+          </button>
+          <button
+            className="text-teal-600 hover:text-teal-800"
+            onClick={() => setShowImage(true)} // Show image when clicked
+          >
+            <ImageIcon size={20} />
           </button>
         </div>
       </div>
@@ -111,17 +99,17 @@ export const CartItem: React.FC<CartItemProps> = ({
             {item.netWeight.toFixed(2)}
           </div>
         )}
-        <button className="bg-gray-200 rounded w-8 h-8 flex items-center justify-center">
-          <Image size={16} className="text-gray-600" />
-        </button>
       </div>
+
+      {showImage && (
+        <div className="mt-2">
+          <img src={item.image} alt="Captured" className="w-32 h-32 object-cover" />
+          <button onClick={() => setShowImage(false)}>Close</button>
+        </div>
+      )}
     </div>
   );
 };
-
-
-
-
 // "use client";
 
 // import type React from "react";
